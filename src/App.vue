@@ -171,7 +171,7 @@ export default {
       this.timer()
       this.finishGame = false
     },
-    //This is alogrithm for shuffle cards array
+    //This is algorithm for shuffle cards array
     shuffleArray(array){
       var counter = array.length, temp, index;
 
@@ -229,6 +229,14 @@ export default {
       this.finishGame = true;
     }
   }
+  //TODO
+  //1. Calc all steps and save best time
+  //2. Adding best temporary steps and best time and after finish the game compare with best times
+  //3 If we have better time we get congratz message
+  //4 //-//-// for steps
+  //5 Extract the game into components
+  //6 Extract dummy data into Vuex
+  //7 Extract into Firebase db
 }
 </script>
 
