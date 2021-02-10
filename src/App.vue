@@ -21,19 +21,13 @@
 export default {
   data(){
     return{
-      //Init counter from 60 seconds
       counter: 60,
-      //2 classes for assign after flip cards
       classes: [
         'flip', 'disable-card'
       ],
-      // in this object save data from clicked card
       currentCard: {},
       selectedCards: 0,
-      //With this var i count equal pairs
       equalCards: 0,
-      //This is cards array where we have ID, name , image , Visible(After click card with click event we change from false to true)
-      //selCard change to true when we have 2 equal pairs .. if we choose 2 cards of Vue their selCard will be true
       cards: [
         {
           'id': '0',
@@ -119,45 +113,35 @@ export default {
           'selCard' : false
         },
       ],
-      //This is simple var for start new game
       finishGame: true
     }
   },
   computed:{
-    //With this computed property i filter our array with shuffleArray method where everytime we get card in different places
     shuffledCards(){
       return this.shuffleArray(this.cards)
     }
   },
   watch:{
-    //With this watcher we watch for currentCard object and we compare newValue with oldValue
     currentCard(newValue, oldValue){
       if(this.selectedCards % 2 !== 0){
         newValue.name = this.currentCard.name
       }
-      //Here we check if oldValue and newValue are equal and selectedCards should be greater than 1
       if(oldValue.name === newValue.name && this.selectedCards > 1){
-        //If they are equal we change both values to true and add +1 to equalCards for 1 pair
         oldValue.selCard = true
         newValue.selCard = true
         this.equalCards += 1;
       }else{
-        //Here if every second card are not equal with previous one we call method unflipCards
         if(this.selectedCards % 2 === 0 && this.selectedCards > 1)
           setTimeout(this.unflipCards,1000)
 
       }
-    },
-    //With this watcher we watch for equalCards .. if we have 6 pairs (all cards are equal) we finish the game and we can start new game
-    equalCards(){
+    }, equalCards(){
       if(this.equalCards === 6){
         if(confirm('Game finish!You open all cards!Did you want new game ?')){
           this.gameEnd()
         }
       }
-    },
-    //With this watcher we watch for counter , if counter are 0 the game finish
-    counter(){
+    },counter(){
       if(this.counter === 0 && this.equalCards !== 6){
        alert('Your time is over')
         this.finishGame = true
@@ -165,14 +149,12 @@ export default {
     }
   },
   methods:{
-    //With this method i set counter to be 60second and start timer
     startGame(){
       this.counter = 60
       this.timer()
       this.finishGame = false
     },
-    //This is algorithm for shuffle cards array
-    shuffleArray(array){
+     shuffleArray(array){
       var counter = array.length, temp, index;
 
       while(counter > 0){
@@ -187,7 +169,6 @@ export default {
 
       return array
     },
-    //Toggle method where when we click some card we change visible value to true and count selectedCards
     toggle(id){
       this.currentCard = this.cards.find(card => card.id === id)
       this.currentCard.visible = !this.currentCard.visible
@@ -207,7 +188,6 @@ export default {
         }, 1000)
       }
     },
-    //This method simple unflip all cards , but if we have 2 equals with selCard = true they wont be flipped
     unflipCards(){
       this.shuffledCards.forEach(val => {
         if(!val.selCard ) {
@@ -216,7 +196,6 @@ export default {
       })
       this.selectedCards = 0;
     },
-    // Here we reset array values , counter etc..
     gameEnd(){
       this.shuffledCards.forEach(val => {
         val.visible = false
@@ -229,14 +208,6 @@ export default {
       this.finishGame = true;
     }
   }
-  //TODO
-  //1. Calc all steps and save best time
-  //2. Adding best temporary steps and best time and after finish the game compare with best times
-  //3 If we have better time we get congratz message
-  //4 //-//-// for steps
-  //5 Extract the game into components
-  //6 Extract dummy data into Vuex
-  //7 Extract into Firebase db
 }
 </script>
 
